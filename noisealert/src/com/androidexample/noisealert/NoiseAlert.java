@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.util.Log;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,8 @@ public class NoiseAlert extends Activity  {
 		int ran;
 	    MediaPlayer[] mp = new MediaPlayer[20];
 	    Random r = new Random();
+	    SeekBar mseekbar;
+	    int setThres;
 	
         private static final int POLL_INTERVAL = 200;
         boolean aaa = false;
@@ -28,14 +32,14 @@ public class NoiseAlert extends Activity  {
         private boolean mRunning = false;
         
         /** config state **/
-        private int mThreshold;
+        private int mThreshold=6;
         
         private PowerManager.WakeLock mWakeLock;
 
         private Handler mHandler = new Handler();
 
         /* References to view elements */
-        private TextView mStatusView;
+        private TextView mStatusView, sensit;
         private SoundLevelView mDisplay;
 
         /* sound data source */
@@ -60,7 +64,7 @@ public class NoiseAlert extends Activity  {
                         
                         
                         //Log.i("Noise", "runnable mPollTask");
-                        updateDisplay("For UCI Hackathon Videos check out our youtube channel https://www.youtube.com/channel/UCzVOOpeVLhc75DUzxdbDS0w or search for Awkward Pony", amp);
+                        updateDisplay("For UCI Hackathon Videos check out our youtube channel www.youtube.com/channel/UCzVOOpeVLhc75DUzxdbDS0w or search for Awkward Pony on Youtube", amp);
 
                         if ((amp > mThreshold)) {
                               callForHelp();
@@ -81,7 +85,7 @@ public class NoiseAlert extends Activity  {
                         	mThreshold=80;
                         }
                         if(!(mp[ran].isPlaying())){
-                        	mThreshold=6;
+                        	mThreshold=setThres;
                         }
                         
                         // Runnable(mPollTask) will again execute after POLL_INTERVAL
@@ -124,7 +128,33 @@ public class NoiseAlert extends Activity  {
                 // Defined SoundLevelView in main.xml file
                 setContentView(R.layout.main);
                 mStatusView = (TextView) findViewById(R.id.status);
+                sensit= (TextView) findViewById(R.id.editText1);
                
+                mseekbar = (SeekBar) findViewById(R.id.seekbar);
+                mseekbar.setOnSeekBarChangeListener( new OnSeekBarChangeListener()
+                {
+                	int progressChanged = 0;
+                public void onProgressChanged(SeekBar mseekBar, int progress,
+                                                                                boolean fromUser)
+                {
+                	
+                	progressChanged = progress;
+                                                                }
+
+                                                                public void onStartTrackingTouch(SeekBar mseekBar)
+                {
+                                                                                // TODO Auto-generated method stub
+                                                                }
+                                                                
+
+                                                                public void onStopTrackingTouch(SeekBar mseekBar)
+                {
+                                                                                // TODO Auto-generated method stub
+                                                                	Toast.makeText(NoiseAlert.this,"seek bar progress:"+progressChanged, 
+                                                                            Toast.LENGTH_SHORT).show();
+                                                                	setThres=progressChanged/7;
+                                                                }
+                });
                 // Used to record voice
                 mSensor = new SoundMeter();
                 mDisplay = (SoundLevelView) findViewById(R.id.volume);
@@ -188,12 +218,14 @@ public class NoiseAlert extends Activity  {
        
         private void initializeApplicationConstants() {
                 // Set Noise Threshold
-        	    mThreshold = 7;
+        	    mThreshold = setThres;
                 
         }
 
         private void updateDisplay(String status, double signalEMA) {
                 mStatusView.setText(status);
+                String heres="Sensitivity Adjuster";
+                sensit.setText(heres);
                 // 
                 mDisplay.setLevel((int)signalEMA, mThreshold);
         }
