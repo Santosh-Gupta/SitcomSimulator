@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sitcom Simulator by Awkward Pony</string>
+        <string name="settings">Settings</string>
+        <string name="threshold">Threshold</string>
+        <string name="call_number">Callout Number</string>
+        <string name="start">Start</string>
+        <string name="stop">Stop</string>
+        <string name="test">Test</string>
+        <string name="panic">Panic</string>
+        <string name="stopped">stopped...</string>
+        <string name="alert_heading">Alert Settings</string>
+        <string name="power_heading">Power save settings</string>
+        <string name="alert_phone">Alert Phone Number</string>
+        <string name="alert_phone_summary">Dial this number when sound activity is detected</string>
+        <string name="sound_threshold">Sound Threshold</string>
+        <string name="sound_threshold_summary">Sound level at which to dial alert number</string>
+        <string name="sleep">Sleep Interval</string>
+        <string name="sleep_summary">Periodically suspend monitoring</string>
+        <string name="display_update">Enable Graphics</string>
+        <string name="display_update_summary">Enable graphical volume meter</string>
+    <string name="no_num_title">Missing Number</string>
+    <string name="no_num_msg">No alert phone number has been set!</string>
+    <string name="ok">ok</string>
+</resources>
+
